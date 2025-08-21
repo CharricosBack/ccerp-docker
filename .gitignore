@@ -13,7 +13,6 @@ yarn-error.log*
 /bootstrap/cache/*.php
 
 # Angular / Frontend
-dist/
 *.tsbuildinfo
 
 # Docker
