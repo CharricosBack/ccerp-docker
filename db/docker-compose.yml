@@ -1,0 +1,49 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ccerp-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - ./backup.sql:/docker-entrypoint-initdb.d/backup.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ccerp
+      MYSQL_USER: ccerpuser
+      MYSQL_PASSWORD: Ccerp_2025
+    networks:
+      - laravel
+    restart: unless-stopped
+
+  mysql-backup:
+    image: mysql:8.0
+    container_name: ccerp-backup
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ccerp
+      MYSQL_USER: ccerpuser
+      MYSQL_PASSWORD: Ccerp_2025
+    volumes:
+      - ./db-backups:/backups  # Carpeta del host donde se guardarán los dumps
+    entrypoint: >
+      /bin/sh -c "
+      while ! mysqladmin ping -h ccerp-db -u ccerpuser -pCcerp_2025 --silent; do
+        echo 'Esperando a que MySQL arranque...';
+        sleep 5;
+      done;
+      while true; do
+        mysqldump --no-tablespaces -h ccerp-db -u ccerpuser -pCcerp_2025 --routines ccerp > /backups/backup_$(date +'%Y%m%d_%H%M%S').sql;
+        echo 'Backup realizado: ' $(date);
+        sleep 86400;
+      done
+      "
+
+    networks:
+      - laravel
+
+networks:
+  laravel:
+    external: true

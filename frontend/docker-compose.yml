@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: .
+    container_name: ccerpfront
+    ports:
+      - "80:80"
+    networks:
+      - laravel
+
+networks:
+  laravel:
+    external: true

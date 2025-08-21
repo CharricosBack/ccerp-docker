@@ -1,0 +1,19 @@
+networks:
+  laravel:
+    external: true
+
+services:
+  websocket:
+    build: .
+    ports:
+      - "3001:3001"
+    container_name: ccerp-websocket
+    environment:
+      REDIS_HOST: redis-server
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: @Credit789Magnus ## Revisar contraseña
+      LARAVEL_API_URL: http://35.236.120.88:8000
+      CORS_ORIGIN: http://127.0.0.1:5500
+      PORT: 3001
+    networks:
+      - laravel
