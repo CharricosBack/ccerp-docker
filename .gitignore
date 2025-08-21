@@ -1,0 +1,37 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Laravel
+/vendor/
+/.env
+/storage/*.key
+/storage/debugbar/*
+/storage/logs/*
+/bootstrap/cache/*.php
+
+# Angular / Frontend
+dist/
+*.tsbuildinfo
+
+# Docker
+*.env
+docker-compose.override.yml
+**/Dockerfile
+**/nginx.conf
+
+# Database backups
+db/backup.sql
+*.sql
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
